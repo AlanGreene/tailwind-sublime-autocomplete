@@ -10,7 +10,7 @@ class tailwindCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
 
-        if view.match_selector(locations[0], "text.html string.quoted"):
+        if view.match_selector(locations[0], "text.html string.quoted") or view.match_selector(locations[0], "source.js string.quoted.jsx"):
 
             # Cursor is inside a quoted attribute
             # Now check if we are inside the class attribute
@@ -31,7 +31,7 @@ class tailwindCompletions(sublime_plugin.EventListener):
             parts  = line.split('=')
 
             # is the last typed attribute a class attribute?
-            if len(parts) > 1 and parts[-2].strip().endswith("class"):
+            if len(parts) > 1 and (parts[-2].strip().endswith("class") or parts[-2].strip().endswith("className")):
                 return self.class_completions
             else:
                 return []
